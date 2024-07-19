@@ -530,6 +530,7 @@ ocli dev i -s split
 ocli dev of -m <id> out.png
 ----
 
+When invoking `split` function, `ocli` calls `transform` function 3 times. Each of them also calls function `resize` and `bg-remove`. The total execution time is lower than calling these functions one by one because Oparaca try to execute them concurrently.
 
 == 5. Cluster deployment
 
