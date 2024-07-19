@@ -1,0 +1,78 @@
+=  Python Function Template for Oparaca Platform
+:toc:
+:toc-placement: preamble
+:toclevels: 2
+
+// Need some preamble to get TOC:
+{empty}
+
+== Requirements
+* Python 3.11+
+* Oparaca Commandline Tool `ocli`
++
+Check this guide on how to download or install: https://github.com/hpcclab/OaaS/blob/main/cli/README.adoc[link]
+
+== Quick Start with `ocli` on dev mode
+
+. Create a virtual environment.
++
+[source,bash]
+----
+python -m venv venv
+----
+
+
+. Activate a virtual environment.
++
+[source,bash]
+----
+# For powershell
+./venv/Scripts/activate
+# For bash
+source venv/Scripts/activate
+----
++
+NOTE: If you did it correctly, you should see `(venv)` at the beginning of your terminal.
+
+. Install dependency library
++
+[source,bash]
+----
+pip install -r requirements.txt
+----
+
+. Start server
++
+[source,bash]
+----
+python main.py
+----
+
+. Apply `pkg.yml` via `ocli`
++
+[source,bash]
+----
+ocli dev pa pkg.yml
+----
+
+. Create a new object
++
+[source,bash]
+----
+ocli dev object-create example.greeter -s
+----
++
+NOTE: With `-s`, the ID of new object will be saved locally to be used by next command.
+
+. Invoke the `greet` function of `greeter` object
++
+[source,bash]
+----
+ocli dev invoke greet
+#OR
+ocli dev invoke -m "<ID of object>" greet
+----
+
+== More Info
+
+Check on this https://github.com/hpcclab/OaaS/blob/main/doc/FUNCTION_GUIDE.adoc[guide] on the main repository.

@@ -1,0 +1,22 @@
+name: example
+functions:
+  - name: greet
+    type: TASK
+    provision:
+      knative:
+        image: ghcr.io/hpcclab/oaas/json-update-fn-py:latest # change this
+    config:
+      offloadingMode: JSON
+      custom:
+        LOG_LEVEL: DEBUG
+
+
+classes:
+  - name: greeter
+    stateType: FILES
+    objectType: SIMPLE
+    parents: ['builtin.base']
+    functions:
+      - name: greet
+        function: .greet
+        outputCls: none
