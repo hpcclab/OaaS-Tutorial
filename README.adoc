@@ -398,6 +398,7 @@ classes:
         function: .bg-remove
       #### END
 ----
+NOTE: Don't forget to reapply!!!
 
 We add 2 functions with prefix `-inplace` to make the function update the main object directly. For 2 old functions, we modify them to make them become immutable functions.
 
@@ -419,9 +420,116 @@ ocli dev i -s bg-remove
 ocli dev of image out.png
 ----
 
-== Dataflow
+== 4. Dataflow
+
+Oparaca have support building the workflow in form of dataflow. The feature enables us to run multiple functions as one function. For example, in this tutorial, we want to run both `resize` and `bg-remove` functions as one function.
+
+=== 4.1 Basic MACRO function
+
+[source,yaml]
+.pkg.yaml
+----
+name: tutorial
+classes:
+  - name: image
+    parents: ['builtin.base']
+    functions:
+      - {...}
+      - name: transform # <1>
+        function: .transform
+    stateSpec:
+      keySpecs:
+        - name: image
+
+functions:
+  - {...}
+  - name: transform # <2>
+    type: MACRO
+    macro:
+      steps: <3>
+        # var out1 = self.resize(ratio=$args.ratio)
+        - target: '@'
+          as: out1
+          function: resize
+          argRefs:
+            ratio: ratio
+        # var out2 = out1.bg-remove()
+        - target: out1
+          as: out2
+          function: bg-remove
+      # return out2
+      output: out2 <4>
+----
+<1> Create a `transform` function binding to `image` class and link to function definition below.
+<2> Create a `transform` function with `MACRO` type.
+<3> Create 2 steps (`resize` and `bg-remove`) for this function.
+<4> Specify the return object for this function
+
+NOTE: Don't forget to reapply!!!
+
+[source,bash]
+----
+ocli dev oc tutorial.image -s -f image=images/sol.png
+ocli dev i -s transform
+ocli dev of image out.png
+----
+
+We can see that the output image is not only resized, but also have removed background as well.
+
+=== Nested MACRO function
+
+The `MACRO` function in Oparaca is still a function. We can create another macro function to invoke this function. In this tutorial, we want to have one function that create multiple image with different sizes and background removed.
+
+[source,yaml]
+.pkg.yaml
+----
+name: tutorial
+classes:
+  - name: image
+    parents: ['builtin.base']
+    functions:
+      - {...}
+      - name: split
+        function: .split-transform
+    stateSpec:
+      keySpecs:
+        - name: image
+
+functions:
+  - {...}
+  - name: split-transform
+    type: MACRO
+    macro:
+      steps:
+        # var small = self.transform(ratio=0.1)
+        - target: '@'
+          as: small
+          function: transform
+          args:
+            ratio: 0.1
+        # var medium = self.transform(ratio=0.3)
+        - target: '@'
+          as: medium
+          function: transform
+          args:
+            ratio: 0.3
+        # var big = self.transform(ratio=0.5)
+        - target: '@'
+          as: big
+          function: transform
+          args:
+            ratio: 0.5
+----
+
+NOTE: Don't forget to reapply!!!
+
+[source,bash]
+----
+ocli dev oc tutorial.image -s -f image=images/sol.png
+ocli dev i -s split
+ocli dev of -m <id> out.png
+----
 
 
-
-== Cluster deployment
+== 5. Cluster deployment
 

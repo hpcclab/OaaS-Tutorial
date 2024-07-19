@@ -19,6 +19,11 @@ classes:
         immutable: true
       - name: bg-remove-inplace
         function: .bg-remove
+      - name: transform
+        function: .transform
+        outputCls: .image
+      - name: split
+        function: .split-transform
     stateSpec:
       keySpecs:
         - name: image
@@ -30,3 +35,42 @@ functions:
   - name: bg-remove
     config:
       staticUrl: http://localhost:8081
+
+  - name: transform
+    type: MACRO
+    macro:
+      steps:
+        # var out1 = self.resize()
+        - target: '@'
+          as: out1
+          function: resize
+          argRefs:
+            ratio: ratio
+        # var out2 = out1.bg-remove()
+        - target: out1
+          as: out2
+          function: bg-remove
+      # return out2
+      output: out2
+  - name: split-transform
+    type: MACRO
+    macro:
+      steps:
+        # var small = self.transform(ratio=0.1)
+        - target: '@'
+          as: small
+          function: transform
+          args:
+            ratio: 0.1
+        # var medium = self.transform(ratio=0.3)
+        - target: '@'
+          as: medium
+          function: transform
+          args:
+            ratio: 0.3
+        # var big = self.transform(ratio=0.5)
+        - target: '@'
+          as: big
+          function: transform
+          args:
+            ratio: 0.5
