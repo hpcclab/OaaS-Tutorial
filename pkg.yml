@@ -32,9 +32,16 @@ functions:
   - name: resize
     config:
       staticUrl: http://localhost:8080
+    provision:
+      knative:
+        image: ghcr.io/pawissanutt/oaas/img-resize-fn-py:latest
   - name: bg-remove
     config:
       staticUrl: http://localhost:8081
+    provision:
+      knative:
+        concurrency: 1
+        image: ghcr.io/pawissanutt/oaas/img-rembg-fn-py:latest
 
   - name: transform
     type: MACRO

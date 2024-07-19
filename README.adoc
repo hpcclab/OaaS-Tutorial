@@ -10,11 +10,11 @@
 == Prerequisites
 
 === Required tools
-* git
+* Git
 * Docker
-* ocli
+* https://github.com/hpcclab/OaaS/tree/main/cli[ocli]
 * Python 3
-* Oparaca Cluster (optional for the last step)
+* https://github.com/hpcclab/OaaS[Oparaca] Cluster (optional for the last step)
 
 === Clone the tutorial project
 
@@ -526,11 +526,98 @@ NOTE: Don't forget to reapply!!!
 [source,bash]
 ----
 ocli dev oc tutorial.image -s -f image=images/sol.png
-ocli dev i -s split
+ocli dev i split
 ocli dev of -m <id> out.png
 ----
 
 When invoking `split` function, `ocli` calls `transform` function 3 times. Each of them also calls function `resize` and `bg-remove`. The total execution time is lower than calling these functions one by one because Oparaca try to execute them concurrently.
 
 == 5. Cluster deployment
+
+=== 5.1 Prerequisite
+
+To begin with step 5, we need a Oparaca cluster. We can create one in local PC with this https://github.com/hpcclab/OaaS/blob/main/deploy/local-k8s/README.adoc[guide]
+
+=== 5.2 Deploy image class
+
+To deploy this sample application to cluster environment, we need to build the image and push to container registry. To simplify this process, we will use the https://github.com/pawissanutt/OaaS/pkgs/container/oaas%2Fimg-rembg-fn-py[pre-built image].
+
+First, we need to update link:pkg.yml[] by adding the container image to each function.
+[source,yaml]
+.pkg.yml
+----
+functions:
+  - name: resize
+    config:
+      staticUrl: http://localhost:8080
+    provision:
+      knative:
+        image: ghcr.io/pawissanutt/oaas/img-resize-fn-py:latest
+  - name: bg-remove
+    config:
+      staticUrl: http://localhost:8081
+    provision:
+      knative:
+        image: ghcr.io/pawissanutt/oaas/img-rembg-fn-py:latest
+----
+
+Then, try to apply `pkg.yml` to cluster. In this time, we will not need to use `dev` mode anymore.
+
+[source,bash]
+----
+ocli p a pkg.yml
+----
+
+We can now check on Kubernetes.
+[source,bash]
+----
+kubectl get pod -n oaas -l cr-id
+----
+We can see three pod are created. Two of them are functions `resize` and `bg-remove` that powered by Knative. When there is no request for a certain period of time, these pods will be removed.
+
+Now, we can try on function invocation by running the below commands. They should work in the same as dev mode.
+[source,bash]
+----
+ocli o c -s tutorial.image -f image=images/sol.png
+ocli i -s transform --args ratio=0.1
+ocli o f image out.png
+
+ocli o c -s tutorial.image -f image=images/sol.png
+ocli i split
+----
+
+Now, we realize that `bg-remove` function require a lot of CPU resource. It is not good if multiple requests come to the same pod. To prevent this, we can add `concurrency=1`.
+
+[source,yaml]
+.pkg.yml
+----
+functions:
+  - name: bg-remove
+    config:
+      staticUrl: http://localhost:8081
+    provision:
+      knative:
+        concurrency: 1
+        image: ghcr.io/pawissanutt/oaas/img-rembg-fn-py:latest
+----
+
+To see how it works, we have to monitor the pod by using `kubectl` in another terminal session.
+
+[source,bash]
+----
+kubectl get pod -n oaas -l cr-id in another terminal
+----
+
+Then, try to invoke the `split` workflow again
+[source,bash]
+----
+ocli p a pkg.yml
+# wait for some seconds
+ocli o c -s tutorial.image -f image=images/sol.png
+ocli i split
+----
+
+Now you can see that `Knative` create multiple new pods to handle the request concurrently.
+
+
 
