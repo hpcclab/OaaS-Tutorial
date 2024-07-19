@@ -620,7 +620,7 @@ To see how it works, we have to monitor the pod by using `kubectl` in another te
 
 [source,bash]
 ----
-kubectl get pod -n oaas -l cr-id in another terminal
+kubectl get pod -n oaas -l cr-id
 ----
 
 Then, try to invoke the `split` workflow again
