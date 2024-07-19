@@ -1,0 +1,5 @@
+name: tutorial
+classes:
+  - name: demo
+    parents: ['builtin.base']
+
