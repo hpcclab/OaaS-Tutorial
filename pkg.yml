@@ -1,0 +1,32 @@
+name: tutorial
+classes:
+  - name: image
+    parents: ['builtin.base']
+    functions:
+      - name: update
+        function: builtin.update
+        override:
+          merge: true
+      - name: resize
+        function: .resize
+        outputCls: .image
+        immutable: true
+      - name: resize-inplace
+        function: .resize
+      - name: bg-remove
+        function: .bg-remove
+        outputCls: .image
+        immutable: true
+      - name: bg-remove-inplace
+        function: .bg-remove
+    stateSpec:
+      keySpecs:
+        - name: image
+
+functions:
+  - name: resize
+    config:
+      staticUrl: http://localhost:8080
+  - name: bg-remove
+    config:
+      staticUrl: http://localhost:8081
