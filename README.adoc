@@ -34,8 +34,23 @@ ocli dev -h
 
 NOTE: Use `-h` to check the command reference.
 
-=== 1.1 Apply package to ocli in dev mode
-First, we need to use the below command to apply the package. `ocli` will persist this package definition to local state (`$HOME/.oprc/local`).
+=== 1.1 Create pkg.yml
+
+First, we create `pkg.yml` file that define the class `demo`.
+[source,yaml]
+.pkg.yaml
+----
+name: tutorial # <1>
+classes:
+  - name: demo # <2>
+    parents: ['builtin.base'] # <3>
+----
+<1> Set the name of this package to `tutorial`
+<2> Set the class name to `demo`
+<3> Each class in oparaca can inherit the behavior from parent class. In this case, we make `demo` inherit `builtin.base` that is the base class for any class should be inherited.
+
+=== 1.2 Apply package to ocli in dev mode
+To use `pkg.yml`, we need to use the below command to apply the package. `ocli` will persist this package definition to local state (`$HOME/.oprc/local`).
 [source,bash]
 ----
 ocli dev pa pkg.yml
@@ -47,7 +62,7 @@ We can also check what are packages that already persist in local state.
 ocli dev cl
 ----
 
-=== 1.2 Create object
+=== 1.3 Create object
 
 With the current package definition, even though it has no custom code but we can still use some basic operations such as `new` and `get`
 
@@ -68,7 +83,7 @@ ls $HOME/.oprc/local/
 cat $HOME/.oprc/local/tutorial.demo.ndjson
 ----
 
-=== 1.3 Add function to class
+=== 1.4 Add function to class
 
 Let try to add more built-in function, we can add `builtin.update` to our `demo` class
 
@@ -127,7 +142,7 @@ ocli dev oc tutorial.demo -s -d '{"hello": "world"}'
 ocli dev i update -d '{"foo": "bar"}'
 ----
 
-=== 1.3 Add key to unstructured state
+=== 1.5 Add key to unstructured state
 
 Oparaca can work with unstructured state (BLOB). However, it is required to bep redefined in class definition.
 
@@ -179,7 +194,7 @@ ocli dev of image out.png
 
 == 2. Add the custom function
 
-This image is too big. Let try to resize it with custom function.
+The example image is big. Let try to resize it with custom function.
 We already have the `image-resizing` on our https://github.com/hpcclab/OaaS/tree/main/example/functions/img-resize-fn-py[main OaaS repository]. So, we can use it here.
 
 To simplify the process, we can use the docker to run the function container.
