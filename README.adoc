@@ -7,6 +7,17 @@
 // Need some preamble to get TOC:
 {empty}
 
+== Access to code
+We created the tutorial so that the audience can follow it step-by-step. If something go wrong, you can check the complete version using `git checkout`.
+[source,bash]
+----
+git checkout steps-4
+# OR
+git checkout steps-5
+----
+
+
+
 == Prerequisites
 
 === Required tools
