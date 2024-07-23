@@ -58,16 +58,16 @@ classes:
 ----
 <1> Set the name of this package to `tutorial`
 <2> Set the class name to `demo`
-<3> Each class in oparaca can inherit the behavior from parent class. In this case, we make `demo` inherit `builtin.base` that is the base class for any class should be inherited.
+<3> Each class in Oparaca can inherit the behavior from the parent class. In this case, we make `demo` inherit `builtin.base`, which is the base class for any class that should be inherited.
 
 === 1.2 Apply package to ocli in dev mode
-To use `pkg.yml`, we need to use the below command to apply the package. `ocli` will persist this package definition to local state (`$HOME/.oprc/local`).
+To use `pkg.yml`, we need to use the below command to apply the package. `ocli` will persist this package definition to the local state (`$HOME/.oprc/local`).
 [source,bash]
 ----
 ocli dev pa pkg.yml
 ----
 
-We can also check what are packages that already persist in local state.
+We can also check what packages already persist in the local state.
 [source,bash]
 ----
 ocli dev cl
@@ -75,7 +75,7 @@ ocli dev cl
 
 === 1.3 Create object
 
-With the current package definition, even though it has no custom code but we can still use some basic operations such as `new` and `get`
+With the current package definition, even though it has no custom code, we can still use some basic operations such as `new` and `get`
 
 [source, bash]
 ----
@@ -87,7 +87,7 @@ ocli dev oc tutorial.demo -s -d '{"hello": "world"}'
 # we can create object with some JSON data as well
 ----
 
-When creating object, `ocli` will save the object data in to local file with the ndjson format (Newline Delimited JSON).
+When creating the object, `ocli` will save the object data into a local file with the NDJSON format (Newline Delimited JSON).
 [source, bash]
 ----
 ls $HOME/.oprc/local/
@@ -96,7 +96,7 @@ cat $HOME/.oprc/local/tutorial.demo.ndjson
 
 === 1.4 Add function to class
 
-Let try to add more built-in function, we can add `builtin.update` to our `demo` class
+Let's try to add more built-in functions. We can add `builtin.update` to our `demo` class.
 
 [source,yaml]
 .pkg.yaml
@@ -112,7 +112,7 @@ classes:
     #### END
 ----
 
-Reapply package definition to make it affect.
+Reapply the package definition to make it effective.
 
 [source,bash]
 ----
@@ -189,7 +189,7 @@ docker run -d -p 9000:9000 -p 9001:9001 -e MINIO_ROOT_USER=admin -e MINIO_ROOT_P
 # docker rm minio
 ----
 
-Now, we should be able to create the object with file. We can use `-f <key>=<path-to-file>` to upload the file.
+Now, we should be able to create the object with the file. We can use `-f <key>=<path-to-file>` to upload the file.
 
 [source,bash]
 ----
@@ -205,7 +205,7 @@ ocli dev of image out.png
 
 == 2. Add the custom function
 
-The example image is big. Let try to resize it with custom function.
+The example image is big. Let's try to resize it with a custom function.
 We already have the `image-resizing` on our https://github.com/hpcclab/OaaS/tree/main/example/functions/img-resize-fn-py[main OaaS repository]. So, we can use it here.
 
 To simplify the process, we can use the docker to run the function container.
@@ -250,7 +250,7 @@ functions:
 
 NOTE: Don't forget to reapply!!!
 
-Now we can try to use this function.
+Now, we can try to use this function.
 
 [source,bash]
 ----
@@ -282,7 +282,7 @@ Create a virtual environment.
 python -m venv venv
 ----
 
-Activate a virtual environment
+Activate a virtual environment.
 [source,bash]
 ----
 # For powershell
@@ -293,7 +293,7 @@ source venv/Scripts/activate
 +
 NOTE: If you did it correctly, you should see `(venv)` at the beginning of your terminal.
 
-Open link:bg-remover/requirements.txt[requirements.txt] to add `rembg` (The Python library for removing background from image).  We then have to  install library.
+Open link:bg-remover/requirements.txt[requirements.txt] to add `rembg` (The Python library for removing background from image).  We then have to install the dependencies.
 [source,bash]
 ----
 pip install -r requirements.txt
@@ -444,7 +444,7 @@ ocli dev i bg-remove
 ocli dev of image out.png
 ----
 
-Now, `out.png` is the same as the original image. To get the output image, we need to add `-s` to invoke command to save the output ID.
+Now, `out.png` is the same as the original image. To get the output image, we need to add `-s` to invoke the command to save the output ID.
 
 [source,bash]
 ----
@@ -455,7 +455,7 @@ ocli dev of image out.png
 
 == 4. Dataflow
 
-Oparaca have support building the workflow in form of dataflow. The feature enables us to run multiple functions as one function. For example, in this tutorial, we want to run both `resize` and `bg-remove` functions as one function.
+Oparaca has support building the workflow in the form of dataflow. The feature enables us to run multiple functions as one function. For example, in this tutorial, we want to run both `resize` and `bg-remove` functions as one function.
 
 === 4.1 Basic MACRO function
 
@@ -468,7 +468,7 @@ classes:
     parents: ['builtin.base']
     functions:
       - {...}
-      - name: transform # <1>
+      - nam: transform>
         function: .transform
     stateSpec:
       keySpecs:
@@ -507,11 +507,11 @@ ocli dev i -s transform
 ocli dev of image out.png
 ----
 
-We can see that the output image is not only resized, but also have removed background as well.
+We can see that the output image is not only resized but also has removed the background as well.
 
 === Nested MACRO function
 
-The `MACRO` function in Oparaca is still a function. We can create another macro function to invoke this function. In this tutorial, we want to have one function that create multiple image with different sizes and background removed.
+The `MACRO` function in Oparaca is still a function. We can creae another haso function to invoke this function. In this tutorial, we want to have one function that creates multiple images with different sizes and backgrounds removed.
 
 [source,yaml]
 .pkg.yaml
@@ -569,11 +569,11 @@ When invoking `split` function, `ocli` calls `transform` function 3 times. Each 
 
 === 5.1 Prerequisite
 
-To begin with step 5, we need a Oparaca cluster. We can create one in local PC with this https://github.com/hpcclab/OaaS/blob/main/deploy/local-k8s/README.adoc[guide]
+To begin with step 5, we need an Oparaca cluster. We can create one in a local PC with this https://github.com/hpcclab/OaaS/blob/main/deploy/local-k8s/README.adoc[guide]
 
 === 5.2 Deploy image class
 
-To deploy this sample application to cluster environment, we need to build the image and push to container registry. To simplify this process, we will use the https://github.com/pawissanutt/OaaS/pkgs/container/oaas%2Fimg-rembg-fn-py[pre-built image].
+To deploy this sample application to the cluster environment, we need to build the image and push it to the container registry. To simplify this process, we will use the https://github.com/pawissanutt/OaaS/pkgs/container/oaas%2Fimg-rembg-fn-py[pre-built image].
 
 First, we need to update link:pkg.yml[] by adding the container image to each function.
 [source,yaml]
@@ -594,7 +594,7 @@ functions:
         image: ghcr.io/pawissanutt/oaas/img-rembg-fn-py:latest
 ----
 
-Then, try to apply `pkg.yml` to cluster. In this time, we will not need to use `dev` mode anymore.
+Then, try applying `pkg.yml` to the cluster. This time, we will not need to use `dev` mode anymore.
 
 [source,bash]
 ----
@@ -606,7 +606,7 @@ We can now check on Kubernetes.
 ----
 kubectl get pod -n oaas -l cr-id
 ----
-We can see three pod are created. Two of them are functions `resize` and `bg-remove` that powered by Knative. When there is no request for a certain period of time, these pods will be removed.
+We can see three pods are created. Two of them are functions `resize` and `bg-remove` that are powered by Knative. When there is no request for a certain period of time, these pods will be removed.
 
 Now, we can try on function invocation by running the below commands. They should work in the same as dev mode.
 [source,bash]
@@ -650,7 +650,7 @@ ocli o c -s tutorial.image -f image=images/sol.png
 ocli i split
 ----
 
-Now you can see that `Knative` create multiple new pods to handle the request concurrently.
+Now you can see that `Knative` creates multiple new pods to handle the request concurrently.
 
 
 
