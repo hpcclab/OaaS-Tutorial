@@ -303,14 +303,21 @@ pip install -r requirements.txt
 [source, python]
 .main.py
 ----
+import logging
+import os
+from io import BytesIO
+
 import aiohttp
 import oaas_sdk_py as oaas
-from io import BytesIO
+import uvicorn
 from PIL import Image
-from fastapi import FastAPI
+from fastapi import Request, FastAPI, HTTPException
 from oaas_sdk_py import OaasInvocationCtx
 from rembg import remove
 
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+level = logging.getLevelName(LOG_LEVEL)
+logging.basicConfig(level=level)
 
 IMAGE_KEY = "image"
 
