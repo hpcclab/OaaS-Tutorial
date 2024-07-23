@@ -7,6 +7,17 @@
 // Need some preamble to get TOC:
 {empty}
 
+== Access to code
+We created the tutorial so that the audience can follow it step-by-step. If something go wrong, you can check the complete version using `git checkout`.
+[source,bash]
+----
+git checkout steps-4
+# OR
+git checkout steps-5
+----
+
+
+
 == Prerequisites
 
 === Required tools
@@ -14,13 +25,13 @@
 * Docker
 * https://github.com/hpcclab/OaaS/tree/main/cli[ocli]
 * Python 3
-* https://github.com/hpcclab/OaaS[Oparaca] Cluster (optional for the last step)
+* https://github.com/hpcclab/OaaS[Oparaca] Cluster (optional for the last section)
 
 === Clone the tutorial project
 
 [source,bash]
 ----
-git clone https://github.com/pawissanutt/oaas-tutorial.git
+git clone https://github.com/hpcclab/OaaS-Tutorial.git
 cd oaas-tutorial
 ----
 
