@@ -25,7 +25,7 @@ git checkout steps-5
 * Docker
 * https://github.com/hpcclab/OaaS/tree/main/cli[ocli]
 * Python 3
-* https://github.com/hpcclab/OaaS[Oparaca] Cluster (optional for the last step)
+* https://github.com/hpcclab/OaaS[Oparaca] Cluster (optional for the last section)
 
 === Clone the tutorial project
 
