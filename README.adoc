@@ -31,7 +31,7 @@ git checkout steps-5
 
 [source,bash]
 ----
-git clone https://github.com/pawissanutt/oaas-tutorial.git
+git clone https://github.com/hpcclab/OaaS-Tutorial.git
 cd oaas-tutorial
 ----
 
