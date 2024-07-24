@@ -354,14 +354,34 @@ We also need to update package definition as well.
 [source,yaml]
 .pkg.yaml
 ----
+name: tutorial
+classes:
+  - name: image
+    parents: ['builtin.base']
+    functions:
+      - name: update
+        function: builtin.update
+        override:
+          merge: true
+      - name: resize
+        function: .resize
+      - name: bg-remove # <1>
+        function: .bg-remove
+    stateSpec:
+      keySpecs:
+        - name: image
 functions:
   - name: resize
     config:
-      staticUrl: http://localhost:8080
-  - name: bg-remover
+      staticUrl: http://localhost:8080 # <2>
+  - name: bg-remove
     config:
       staticUrl: http://localhost:8081
 ----
+
+<1> Add `bg-remove` function
+<2> Set the URL of function server
+
 NOTE: Don't forget to reapply!!!
 
 
