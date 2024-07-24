@@ -672,5 +672,15 @@ ocli i split
 
 Now you can see that `Knative` creates multiple new pods to handle the request concurrently.
 
+== 6. Video recording of tutorial
+
+Video recording of this tutorial is available on YouTube: 
+https://youtu.be/vXqO50jsCjM
+
+== 7. Publication and citation
+
+If you use the materials of this tutorial, please cite its related publication as follows:
+
+Pawissanutt Lertpongrujikorn and Mohsen Amini Salehi, "Tutorial: Object as a Service (OaaS) Serverless Cloud Computing Paradigm", in Proceedings of the 44th IEEE International Conference on Distributed Computing Systems Workshops (ICDCSW '24), Jersey City, USA, Jul. 2024 
 
 
