@@ -488,7 +488,7 @@ classes:
     parents: ['builtin.base']
     functions:
       - {...}
-      - nam: transform>
+      - nam: transform #<1>
         function: .transform
     stateSpec:
       keySpecs:
@@ -504,8 +504,8 @@ functions:
         - target: '@'
           as: out1
           function: resize
-          argRefs:
-            ratio: ratio
+          args:
+            ratio: ${@|args|ratio}
         # var out2 = out1.bg-remove()
         - target: out1
           as: out2
