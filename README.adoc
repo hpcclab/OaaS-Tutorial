@@ -293,7 +293,7 @@ source venv/Scripts/activate
 +
 NOTE: If you did it correctly, you should see `(venv)` at the beginning of your terminal.
 
-Open link:bg-remover/requirements.txt[requirements.txt] to add `rembg` (The Python library for removing background from image).  We then have to install the dependencies.
+Open `bg-remover/requirements.txt` to add `rembg[cpu]` (The Python library for removing background from image).  We then have to install the dependencies.
 [source,bash]
 ----
 pip install -r requirements.txt
